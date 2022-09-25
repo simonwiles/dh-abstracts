@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import { abstracts } from "../dataset.mjs";
+
+const { abstract } = Astro.props;
+---
+
+<BaseLayout>
+  {
+    abstracts.map((abstract: { path: string }) => (
+      <li>
+        <a href={`./${abstract.path}/`}>{abstract.path}</a>
+      </li>
+    ))
+  }
+</BaseLayout>
