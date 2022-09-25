@@ -589,6 +589,10 @@
     vscode-nls "^5.0.0"
     vscode-uri "^2.1.2"
 
+"CETEIcean@https://github.com/simonwiles/CETEIcean#ssr":
+  version "1.7.0"
+  resolved "https://github.com/simonwiles/CETEIcean#cc4f33a682c7c4c6d6ddcb14687dc9ba71d4bff9"
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
