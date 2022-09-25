@@ -5,7 +5,7 @@ import { abstracts } from "../../dataset.mjs";
 import "../../styles/CETEIcean.css";
 
 export async function getStaticPaths() {
-  return abstracts.map((abstract) => ({
+  return abstracts.map((abstract: { path: any }) => ({
     params: { slug: abstract.path },
     props: { abstract },
   }));
