@@ -8,22 +8,36 @@ const documentsBasePath = "src/abstracts-xml/";
 
 const CETEIcean = new CETEI();
 
+const getAuthors = (xmlDom) =>
+  // Unclear why `.querySelector("titleStmt author")` doesn't work, tbh...
+  [...xmlDom.querySelector("titleStmt").querySelectorAll("author")].map(
+    (author) => ({
+      surname: author.querySelector("name surname").textContent,
+      forenames: [...author.querySelectorAll("name forename")]
+        .map((name) => name.textContent)
+        .join(" "),
+    }),
+  );
+
 const abstracts = fs
   .readdirSync(documentsBasePath)
   .map((abstractPath, i, arr) => {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
     process.stdout.write(`Processing abstract ${i + 1} / ${arr.length}`);
+
     const xmlString = fs.readFileSync(
       path.join(documentsBasePath, abstractPath),
       "utf-8",
     );
     const dom = new JSDOM(xmlString, { contentType: "text/xml" });
-    const ceteiceanDom = CETEIcean.domToHTML5(dom.window.document);
+    const xmlDom = dom.window.document;
+    const ceteiceanDom = CETEIcean.domToHTML5(xmlDom);
 
     return {
       path: abstractPath,
       ceteiceanDom,
+      authors: getAuthors(xmlDom),
     };
   });
 process.stdout.write("\n");
