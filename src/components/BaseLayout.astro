@@ -1,0 +1,14 @@
+---
+import Head from "./Head.astro";
+
+let { bodyClass } = Astro.props;
+---
+
+<html lang="en">
+  <Head title="Home" />
+  <body class={bodyClass}>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
