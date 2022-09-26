@@ -13,6 +13,7 @@
   "dependencies": {
     "CETEIcean": "https://github.com/simonwiles/CETEIcean#ssr",
     "astro": "^1.3.0",
+    "canvas": "^2.10.1",
     "jsdom": "^20.0.0"
   },
   "devDependencies": {
