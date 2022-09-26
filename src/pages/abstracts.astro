@@ -1,13 +1,15 @@
 ---
 import BaseLayout from "../components/BaseLayout.astro";
 import { abstracts } from "../dataset.mjs";
+
+import type { Abstract } from "../types";
 ---
 
 <BaseLayout>
   {
-    abstracts.map((abstract: { path: string }) => (
+    abstracts.map((abstract: Abstract) => (
       <li>
-        <a href={`./${abstract.path}/`}>{abstract.path}</a>
+        <a href={`./${abstract.xmlPath}/`}>{abstract.xmlPath}</a>
       </li>
     ))
   }

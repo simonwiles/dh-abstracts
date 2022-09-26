@@ -2,11 +2,13 @@
 import BaseLayout from "../../components/BaseLayout.astro";
 import { abstracts } from "../../dataset.mjs";
 
+import type { Abstract } from "../../types";
+
 import "../../styles/CETEIcean.css";
 
 export async function getStaticPaths() {
-  return abstracts.map((abstract: { path: any }) => ({
-    params: { slug: abstract.path },
+  return abstracts.map((abstract: Abstract) => ({
+    params: { slug: abstract.xmlPath },
     props: { abstract },
   }));
 }
@@ -15,5 +17,5 @@ const { abstract } = Astro.props;
 ---
 
 <BaseLayout>
-  <div set:html={abstract.ceteiceanDom.outerHTML}></div>
+  <div set:html={abstract.htmlDom.outerHTML}></div>
 </BaseLayout>

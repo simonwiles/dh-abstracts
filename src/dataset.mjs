@@ -32,12 +32,12 @@ const abstracts = fs
     );
     const dom = new JSDOM(xmlString, { contentType: "text/xml" });
     const xmlDom = dom.window.document;
-    const ceteiceanDom = CETEIcean.domToHTML5(xmlDom);
+    const htmlDom = CETEIcean.domToHTML5(xmlDom);
 
     return {
-      path: abstractPath,
-      ceteiceanDom,
+      xmlPath: abstractPath,
       authors: getAuthors(xmlDom),
+      htmlDom,
     };
   });
 process.stdout.write("\n");
