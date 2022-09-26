@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@components/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <h1>serch</h1>
+  <link href="/_pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script src="/_pagefind/pagefind-ui.js" type="text/javascript"></script>
+  <div id="search"></div>
+  <script type="module">
+    window.addEventListener("DOMContentLoaded", (/* event */) => {
+      console.log("DOMContentLoaded fired!");
+      // @ts-ignore
+      new PagefindUI({
+        element: "#search",
+        showImages: false,
+        showEmptyFilters: false,
+      });
+    });
+  </script>
+</BaseLayout>

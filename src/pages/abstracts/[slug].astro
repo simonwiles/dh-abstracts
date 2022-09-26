@@ -18,5 +18,11 @@ const { abstract } = Astro.props;
 ---
 
 <BaseLayout>
-  <div set:html={abstract.htmlDom.outerHTML}></div>
+  <div
+    data-pagefind-body
+    data-pagefind-meta={`title:${abstract.title}`}
+    data-pagefind-filter={`author:${abstract.authors[0].surname}`}
+    set:html={abstract.htmlDom.outerHTML}
+  >
+  </div>
 </BaseLayout>
