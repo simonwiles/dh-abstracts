@@ -4,5 +4,6 @@
     "importsNotUsedAsValues": "error",
     "moduleResolution": "node",
     "types": ["astro/client", "node"]
-  }
+  },
+  "include": ["src/*.d.ts"]
 }
