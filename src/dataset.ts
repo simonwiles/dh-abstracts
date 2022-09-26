@@ -4,15 +4,23 @@ import path from "path";
 import { JSDOM } from "jsdom";
 import CETEI from "CETEIcean";
 
+import type { Author } from "./types";
+
 const documentsBasePath = "src/abstracts-xml/";
 
 const CETEIcean = new CETEI();
 
-const getAuthors = (xmlDoc: Document) =>
+const throwExpression = (errorMessage: string): never => {
+  throw new Error(errorMessage);
+};
+
+const getAuthors = (xmlDoc: Document): Author[] =>
   // Unclear why `.querySelector("titleStmt author")` doesn't work, tbh...
   [...xmlDoc.querySelector("titleStmt")!.querySelectorAll("author")].map(
     (author) => ({
-      surname: author.querySelector("name surname")?.textContent,
+      surname:
+        author.querySelector("name surname")?.textContent ??
+        throwExpression("Author without surname!"),
       forenames: [...author.querySelectorAll("name forename")]
         .map((name) => name.textContent)
         .join(" "),
