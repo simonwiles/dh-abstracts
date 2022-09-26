@@ -4,7 +4,7 @@ import path from "path";
 import { JSDOM } from "jsdom";
 import CETEI from "CETEIcean";
 
-import type { Author } from "./types";
+import type { Abstract, Author } from "./types";
 
 const documentsBasePath = "src/abstracts-xml/";
 
@@ -27,9 +27,9 @@ const getAuthors = (xmlDoc: Document): Author[] =>
     }),
   );
 
-const abstracts = fs
+const abstracts: Abstract[] = fs
   .readdirSync(documentsBasePath)
-  .map((abstractPath, i, arr) => {
+  .map((abstractPath, i, arr): Abstract => {
     process.stdout.clearLine(0);
     process.stdout.cursorTo(0);
     process.stdout.write(`Processing abstract ${i + 1} / ${arr.length}`);
