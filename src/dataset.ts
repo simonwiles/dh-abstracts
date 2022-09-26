@@ -14,6 +14,11 @@ const throwExpression = (errorMessage: string): never => {
   throw new Error(errorMessage);
 };
 
+const getTitle = (xmlDoc: Document): string =>
+  // Unclear why `.querySelector("titleStmt title")` doesn't work, tbh...
+  xmlDoc.querySelector("titleStmt")!.querySelector("title")?.textContent ??
+  throwExpression("Missing title!");
+
 const getAuthors = (xmlDoc: Document): Author[] =>
   // Unclear why `.querySelector("titleStmt author")` doesn't work, tbh...
   [...xmlDoc.querySelector("titleStmt")!.querySelectorAll("author")].map(
@@ -44,6 +49,7 @@ const abstracts: Abstract[] = fs
 
     return {
       xmlPath: abstractPath,
+      title: getTitle(xmlDoc),
       authors: getAuthors(xmlDoc),
       htmlDom,
     };

@@ -1,5 +1,6 @@
 export type Abstract = {
   xmlPath: string;
+  title: string;
   authors: Author[];
   htmlDom: string[];
 };
