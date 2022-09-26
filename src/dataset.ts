@@ -50,4 +50,18 @@ const abstracts: Abstract[] = fs
   });
 process.stdout.write(" done!\n");
 
-export { abstracts };
+// Get a Map() of arrays of abstract keyed by the first letter of each author's
+//  surname (abstracts are added to the arrays corresponding to all authors)
+process.stdout.write("Generating `abstractsByAuthorInitial`...");
+const abstractsByAuthorInitial = abstracts.reduce(
+  (byAuthor: Map<string, Array<Abstract>>, abstract: Abstract) => {
+    abstract.authors.forEach(({ surname }: { surname: string }) =>
+      byAuthor.set(surname[0], [...(byAuthor.get(surname[0]) || []), abstract]),
+    );
+    return byAuthor;
+  },
+  new Map(),
+);
+process.stdout.write(" done!\n");
+
+export { abstracts, abstractsByAuthorInitial };
