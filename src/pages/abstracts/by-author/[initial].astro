@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../../components/BaseLayout.astro";
+import ByAuthorInitialPager from "../../../components/ByAuthorInitialPager.astro";
+import AbstractCard from "../../../components/AbstractCard.astro";
+
+import { abstractsByAuthorInitial } from "../../../dataset";
+
+import type { Abstract } from "../../../types";
+
+export async function getStaticPaths() {
+  return [...abstractsByAuthorInitial.entries()].sort().map(([k, v]) => ({
+    params: { initial: k.toLowerCase() },
+    props: { abstracts: v },
+  }));
+}
+
+const { abstracts } = Astro.props;
+---
+
+<BaseLayout>
+  <ByAuthorInitialPager />
+  {
+    [...abstracts].map((abstract: Abstract) => (
+      <AbstractCard abstract={abstract} />
+    ))
+  }
+</BaseLayout>

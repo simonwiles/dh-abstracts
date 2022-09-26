@@ -1,0 +1,36 @@
+---
+import { abstractsByAuthorInitial } from "../dataset";
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<ol>
+  {
+    [...abstractsByAuthorInitial.entries()].sort().map(([k, v]) => (
+      <li>
+        <a href={`${baseUrl}abstracts/by-author/${k.toLowerCase()}/`}>{k}</a>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  ol {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  li {
+    min-width: 2em;
+  }
+
+  a {
+    font-family: var(--font-stack-sans);
+    text-decoration: none;
+  }
+</style>

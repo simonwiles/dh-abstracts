@@ -1,0 +1,61 @@
+---
+import type { Abstract, Author } from "../types";
+
+export interface Props {
+  abstract: Abstract;
+}
+
+const { abstract } = Astro.props;
+
+const formatAuthor = (author: Author) => {
+  return `${author.surname}, ${author.forenames}`;
+};
+---
+
+<section>
+  <dl>
+    <dt>Title:</dt>
+    <dd>{abstract.title}</dd>
+    <dt>Authors:</dt>
+    <dd>{abstract.authors.map(formatAuthor).join("; ")}</dd>
+  </dl>
+</section>
+
+<style>
+  section {
+    margin: 1em auto;
+    max-width: 700px;
+  }
+
+  dl {
+    background: white;
+    border: 1px solid var(--manatee);
+    box-shadow: 0 1px 1px 0 white, 0 1px 1px 0 #d9dbdf inset;
+    display: flex;
+    flex-flow: row wrap;
+    padding: 8px;
+  }
+
+  dt {
+    flex-basis: 80px;
+    padding: 2px 4px;
+    text-align: right;
+    font-weight: bold;
+    font-family: var(--font-stack-sans);
+    color: var(--manatee);
+    flex-shrink: 0;
+  }
+
+  dd {
+    flex-basis: calc(100% - 80px);
+    margin: 0;
+    padding: 2px 4px;
+  }
+
+  dt:not(:first-of-type),
+  dd:not(:first-of-type) {
+    border-top: 1px solid #d9dbdf;
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+</style>
