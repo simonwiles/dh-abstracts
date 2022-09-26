@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "../../../components/BaseLayout.astro";
-import ByAuthorInitialPager from "../../../components/ByAuthorInitialPager.astro";
-import AbstractCard from "../../../components/AbstractCard.astro";
+import type { Abstract } from "@types";
 
-import { abstractsByAuthorInitial } from "../../../dataset";
+import { abstractsByAuthorInitial } from "@dataset";
 
-import type { Abstract } from "../../../types";
+import AbstractCard from "@components/AbstractCard.astro";
+import BaseLayout from "@components/BaseLayout.astro";
+import ByAuthorInitialPager from "@components/ByAuthorInitialPager.astro";
 
 export async function getStaticPaths() {
   return [...abstractsByAuthorInitial.entries()].sort().map(([k, v]) => ({
