@@ -32,7 +32,7 @@ const abstracts: Abstract[] = fs
   .map((abstractPath, i, arr): Abstract => {
     process.stdout.clearLine(0);
     process.stdout.cursorTo(0);
-    process.stdout.write(`Processing abstract ${i + 1} / ${arr.length}`);
+    process.stdout.write(`Processing abstract ${i + 1} / ${arr.length}...`);
 
     const xmlString = fs.readFileSync(
       path.join(documentsBasePath, abstractPath),
@@ -48,6 +48,6 @@ const abstracts: Abstract[] = fs
       htmlDom,
     };
   });
-process.stdout.write("\n");
+process.stdout.write(" done!\n");
 
 export { abstracts };
