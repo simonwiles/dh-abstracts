@@ -49,6 +49,11 @@ h6 {
   overflow-wrap: break-word;
 }
 
+:where(ul, ol) {
+  list-style: none;
+  padding: 0;
+}
+
 a {
   text-decoration-skip-ink: auto;
 }

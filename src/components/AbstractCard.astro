@@ -1,6 +1,8 @@
 ---
 import type { Abstract, Author } from "@types";
 
+import Icon from "./Icon.astro";
+
 export interface Props {
   abstract: Abstract;
 }
@@ -8,54 +10,122 @@ export interface Props {
 const { abstract } = Astro.props;
 
 const formatAuthor = (author: Author) => {
-  return `${author.surname}, ${author.forenames}`;
+  return `${author.forenames} ${author.surname}`;
 };
 ---
 
 <section>
-  <dl>
-    <dt>Title:</dt>
-    <dd>{abstract.title}</dd>
-    <dt>Authors:</dt>
-    <dd>{abstract.authors.map(formatAuthor).join("; ")}</dd>
-  </dl>
+  <header>
+    <a href={`/abstracts/${abstract.xmlPath}`}>{abstract.title}</a>
+    {abstract.authors.map(formatAuthor).join("; ")}
+  </header>
+  <aside>
+    {
+      abstract.conference && (
+        <span class="conference">{abstract.conference}</span>
+      )
+    }
+    <span class="type">
+      {abstract.type}
+      <Icon name={abstract.type} />
+    </span>
+  </aside>
+
+  {
+    abstract.keywords.length ? (
+      <ul>
+        {abstract.keywords.map((keyword) => (
+          <li class="keyword">{keyword}</li>
+        ))}
+      </ul>
+    ) : null
+  }
 </section>
 
 <style>
   section {
-    margin: 1em auto;
-    max-width: 700px;
-  }
-
-  dl {
-    background: white;
-    border: 1px solid var(--manatee);
-    box-shadow: 0 1px 1px 0 white, 0 1px 1px 0 #d9dbdf inset;
-    display: flex;
-    flex-flow: row wrap;
-    padding: 8px;
-  }
-
-  dt {
-    flex-basis: 80px;
-    padding: 2px 4px;
-    text-align: right;
-    font-weight: bold;
+    background: var(--bombay);
+    border-radius: 4px;
+    color: var(--font-color-dark);
+    display: grid;
+    gap: 0.75em 0.5em;
+    grid:
+      "header aside"
+      "keywords keywords"
+      / 1fr auto;
     font-family: var(--font-stack-sans);
-    color: var(--manatee);
-    flex-shrink: 0;
+    margin: 1em auto;
+    padding: 1em;
+    position: relative;
+
+    a {
+      color: var(--font-color);
+      text-decoration: none;
+    }
   }
 
-  dd {
-    flex-basis: calc(100% - 80px);
-    margin: 0;
-    padding: 2px 4px;
+  header {
+    display: flex;
+    flex-direction: column;
+    grid-area: header;
+    line-height: 1.25;
+    padding-left: 1em;
+    text-indent: -1em;
+
+    a {
+      border-bottom: 1px solid grey;
+      margin-bottom: 0.5em;
+      padding-bottom: 0.25em;
+      width: fit-content;
+    }
   }
 
-  dt:not(:first-of-type),
-  dd:not(:first-of-type) {
-    border-top: 1px solid #d9dbdf;
-    margin-top: 6px;
-    padding-top: 6px;
+  aside {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 max-content;
+    gap: 0.5em;
+    grid-area: aside;
+
+    @media (max-width: 600px) {
+      flex-direction: row;
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    grid-area: keywords;
+  }
+
+  span,
+  li {
+    border-radius: 6px;
+    box-shadow: 1px 1px 4px -2px black;
+    font-size: smaller;
+    font-variant: small-caps;
+    line-height: 1;
+    padding: 2px 8px;
+    text-transform: lowercase;
+    width: max-content;
+
+    &.conference {
+      background: var(--grey-olive);
+      line-height: 24px;
+      text-transform: none;
+    }
+
+    &.keyword {
+      background: var(--dusty-gray);
+    }
+
+    &.type {
+      align-items: center;
+      background: var(--envy);
+      display: flex;
+      gap: 4px;
+    }
   }
 </style>
