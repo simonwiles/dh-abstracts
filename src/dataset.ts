@@ -14,13 +14,18 @@ const throwExpression = (errorMessage: string): never => {
   throw new Error(errorMessage);
 };
 
+const getType = (xmlDoc: Document): string =>
+  xmlDoc.documentElement.getAttribute("rend") ??
+  throwExpression("Missing title!");
+
+// In the following functions the calls to querySelector are chained
+//  because combining them (e.g. `.querySelector("titleStmt title")`)
+//  doesn't work -- not 100% clear why, tbh... :shrug:
 const getTitle = (xmlDoc: Document): string =>
-  // Unclear why `.querySelector("titleStmt title")` doesn't work, tbh...
   xmlDoc.querySelector("titleStmt")!.querySelector("title")?.textContent ??
   throwExpression("Missing title!");
 
 const getAuthors = (xmlDoc: Document): Author[] =>
-  // Unclear why `.querySelector("titleStmt author")` doesn't work, tbh...
   [...xmlDoc.querySelector("titleStmt")!.querySelectorAll("author")].map(
     (author) => ({
       surname:
@@ -31,6 +36,28 @@ const getAuthors = (xmlDoc: Document): Author[] =>
         .join(" "),
     }),
   );
+
+const getConference = (xmlDoc: Document): string =>
+  xmlDoc.querySelector("seriesStmt")!.querySelector("title")?.textContent ??
+  throwExpression("Missing conference title!");
+
+const getYear = (xmlDoc: Document): number =>
+  Number(
+    xmlDoc.querySelector("publicationStmt")!.querySelector("date")?.textContent,
+  ) ?? throwExpression("Missing date!");
+
+const getKeywords = (xmlDoc: Document): string[] =>
+  [
+    ...xmlDoc
+      .querySelector("profileDesc")!
+      .querySelectorAll("keywords list item"),
+  ]
+    .map(
+      (keyword) =>
+        keyword.textContent?.trim() ??
+        throwExpression("keyword missing content!"),
+    )
+    .filter((keyword) => keyword);
 
 const abstracts: Abstract[] = fs
   .readdirSync(documentsBasePath)
@@ -49,8 +76,12 @@ const abstracts: Abstract[] = fs
 
     return {
       xmlPath: abstractPath,
+      type: getType(xmlDoc),
       title: getTitle(xmlDoc),
       authors: getAuthors(xmlDoc),
+      conference: getConference(xmlDoc),
+      year: getYear(xmlDoc),
+      keywords: getKeywords(xmlDoc),
       htmlDom,
     };
   });
@@ -73,4 +104,18 @@ const abstractsByAuthorInitial = abstracts.reduce(
 );
 process.stdout.write(" done!\n");
 
-export { abstracts, abstractsByAuthorInitial };
+// Get a Map() of Set()s of abstract keyed by the abstract type
+process.stdout.write("Generating `abstractsByType`...");
+const abstractsByType = abstracts.reduce(
+  (byType: Map<string, Set<Abstract>>, abstract: Abstract) => {
+    byType.set(
+      abstract.type,
+      byType.get(abstract.type)?.add(abstract) || new Set([abstract]),
+    );
+    return byType;
+  },
+  new Map(),
+);
+process.stdout.write(" done!\n");
+
+export { abstracts, abstractsByAuthorInitial, abstractsByType };
