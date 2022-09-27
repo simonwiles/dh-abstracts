@@ -1,6 +1,7 @@
 body {
   color: var(--font-color-light);
   background: var(--background);
+  font-family: var(--font-stack-sans);
   padding: 2ch;
 }
 
