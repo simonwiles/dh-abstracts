@@ -1,0 +1,33 @@
+---
+import { abstracts, abstractsByAuthorInitial, abstractsByType } from "@dataset";
+
+import BaseLayout from "@components/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <details>
+    <summary><code>abstracts</code></summary>
+    <pre>{JSON.stringify(abstracts, null, 2)}</pre>
+  </details>
+
+  <details>
+    <summary><code>abstractsByAuthorInitial</code></summary>
+    <pre>{JSON.stringify([...abstractsByAuthorInitial.entries()].map(([k,v]) => [k, [...v]]), null, 2)}</pre>
+  </details>
+
+  <details>
+    <summary><code>abstractsByType</code></summary>
+    <pre>{JSON.stringify([...abstractsByType.entries()].map(([k,v]) => [k, [...v]]), null, 2)}</pre>
+  </details>
+</BaseLayout>
+
+<style>
+  :global(main) {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  code {
+    font-size: 1.5em;
+  }
+</style>
