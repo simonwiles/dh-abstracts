@@ -1,0 +1,13 @@
+---
+import { abstractsByType } from "@dataset";
+
+import BaseLayout from "@components/BaseLayout.astro";
+import CollectionPager from "@components/CollectionPager.astro";
+---
+
+<BaseLayout>
+  <CollectionPager
+    collectionMap={abstractsByType}
+    urlStem="abstracts/by-type/"
+  />
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import type { Abstract } from "@types";
+
+import { abstractsByType } from "@dataset";
+
+import AbstractCard from "@components/AbstractCard.astro";
+import BaseLayout from "@components/BaseLayout.astro";
+import CollectionPager from "@components/CollectionPager.astro";
+
+export async function getStaticPaths() {
+  return [...abstractsByType.entries()].sort().map(([k, v]) => ({
+    params: { type: k.replace("/", "_") },
+    props: { abstracts: v },
+  }));
+}
+
+const { abstracts } = Astro.props;
+---
+
+<BaseLayout>
+  <CollectionPager
+    collectionMap={abstractsByType}
+    urlStem="abstracts/by-type/"
+  />
+  {
+    [...abstracts].map((abstract: Abstract) => (
+      <AbstractCard abstract={abstract} />
+    ))
+  }
+</BaseLayout>
