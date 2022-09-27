@@ -1,8 +1,13 @@
 ---
+import { abstractsByAuthorInitial } from "@dataset";
+
 import BaseLayout from "@components/BaseLayout.astro";
-import ByAuthorInitialPager from "@components/ByAuthorInitialPager.astro";
+import CollectionPager from "@components/CollectionPager.astro";
 ---
 
 <BaseLayout>
-  <ByAuthorInitialPager />
+  <CollectionPager
+    collectionMap={abstractsByAuthorInitial}
+    urlStem="abstracts/by-author/"
+  />
 </BaseLayout>

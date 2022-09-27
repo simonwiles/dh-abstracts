@@ -1,14 +1,16 @@
 ---
-import { abstractsByAuthorInitial } from "@dataset";
-
 const baseUrl = import.meta.env.BASE_URL;
+
+const { collectionMap, urlStem } = Astro.props;
 ---
 
 <ol>
   {
-    [...abstractsByAuthorInitial.entries()].sort().map(([k]) => (
+    [...collectionMap.entries()].sort().map(([k]) => (
       <li>
-        <a href={`${baseUrl}abstracts/by-author/${k.toLowerCase()}/`}>{k}</a>
+        <a href={`${baseUrl}${urlStem}${k.toLowerCase().replace("/", "_")}/`}>
+          {k}
+        </a>
       </li>
     ))
   }
@@ -26,7 +28,7 @@ const baseUrl = import.meta.env.BASE_URL;
   }
 
   li {
-    min-width: 2em;
+    padding: 0 0.5em;
   }
 
   a {

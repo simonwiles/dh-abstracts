@@ -5,7 +5,7 @@ import { abstractsByAuthorInitial } from "@dataset";
 
 import AbstractCard from "@components/AbstractCard.astro";
 import BaseLayout from "@components/BaseLayout.astro";
-import ByAuthorInitialPager from "@components/ByAuthorInitialPager.astro";
+import CollectionPager from "@components/CollectionPager.astro";
 
 export async function getStaticPaths() {
   return [...abstractsByAuthorInitial.entries()].sort().map(([k, v]) => ({
@@ -18,7 +18,10 @@ const { abstracts } = Astro.props;
 ---
 
 <BaseLayout>
-  <ByAuthorInitialPager />
+  <CollectionPager
+    collectionMap={abstractsByAuthorInitial}
+    urlStem="abstracts/by-author/"
+  />
   {
     [...abstracts].map((abstract: Abstract) => (
       <AbstractCard abstract={abstract} />
