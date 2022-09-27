@@ -15,12 +15,14 @@ export async function getStaticPaths() {
 }
 
 const { abstracts } = Astro.props;
+const { initial } = Astro.params;
 ---
 
 <BaseLayout>
   <CollectionPager
     collectionMap={abstractsByAuthorInitial}
     urlStem="abstracts/by-author/"
+    activeKey={initial}
   />
   {
     [...abstracts].map((abstract: Abstract) => (

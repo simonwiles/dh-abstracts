@@ -1,18 +1,24 @@
 ---
 const baseUrl = import.meta.env.BASE_URL;
 
-const { collectionMap, urlStem } = Astro.props;
+const { collectionMap, urlStem, activeKey } = Astro.props;
 ---
 
 <ol>
   {
-    [...collectionMap.entries()].sort().map(([k]) => (
-      <li>
-        <a href={`${baseUrl}${urlStem}${k.toLowerCase().replace("/", "_")}/`}>
-          {k}
-        </a>
-      </li>
-    ))
+    [...collectionMap.entries()].sort().map(([k]) => {
+      const key = k.toLowerCase().replace("/", "_");
+      return (
+        <li>
+          <a
+            href={`${baseUrl}${urlStem}${key}/`}
+            class={key === activeKey ? "active" : null}
+          >
+            {k}
+          </a>
+        </li>
+      );
+    })
   }
 </ol>
 
@@ -34,5 +40,11 @@ const { collectionMap, urlStem } = Astro.props;
   a {
     font-family: var(--font-stack-sans);
     text-decoration: none;
+
+    &:hover,
+    &.active {
+      border-bottom: 1px solid currentColor;
+      color: var(--envy);
+    }
   }
 </style>
