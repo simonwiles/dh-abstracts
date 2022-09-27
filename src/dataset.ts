@@ -118,4 +118,23 @@ const abstractsByType = abstracts.reduce(
 );
 process.stdout.write(" done!\n");
 
-export { abstracts, abstractsByAuthorInitial, abstractsByType };
+// Get a Map() of Set()s of abstract keyed by year
+process.stdout.write("Generating `abstractsByYear`...");
+const abstractsByYear = abstracts.reduce(
+  (byYear: Map<string, Set<Abstract>>, abstract: Abstract) => {
+    byYear.set(
+      String(abstract.year),
+      byYear.get(String(abstract.year))?.add(abstract) || new Set([abstract]),
+    );
+    return byYear;
+  },
+  new Map(),
+);
+process.stdout.write(" done!\n");
+
+export {
+  abstracts,
+  abstractsByAuthorInitial,
+  abstractsByType,
+  abstractsByYear,
+};

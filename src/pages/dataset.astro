@@ -1,5 +1,10 @@
 ---
-import { abstracts, abstractsByAuthorInitial, abstractsByType } from "@dataset";
+import {
+  abstracts,
+  abstractsByAuthorInitial,
+  abstractsByType,
+  abstractsByYear,
+} from "@dataset";
 
 import BaseLayout from "@components/BaseLayout.astro";
 ---
@@ -18,6 +23,11 @@ import BaseLayout from "@components/BaseLayout.astro";
   <details>
     <summary><code>abstractsByType</code></summary>
     <pre>{JSON.stringify([...abstractsByType.entries()].map(([k,v]) => [k, [...v]]), null, 2)}</pre>
+  </details>
+
+  <details>
+    <summary><code>abstractsByYear</code></summary>
+    <pre>{JSON.stringify([...abstractsByYear.entries()].map(([k,v]) => [k, [...v]]), null, 2)}</pre>
   </details>
 </BaseLayout>
 
