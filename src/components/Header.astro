@@ -13,7 +13,7 @@ import Nav from "./Nav.astro";
     box-shadow: 0 0 4px 4px rgb(0 0 0 / 20%);
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow: hidden;
     padding: 0.25em calc((100vw - var(--wrap)) / 2);
     position: sticky;
     top: 0;
@@ -29,6 +29,7 @@ import Nav from "./Nav.astro";
   }
 
   a {
+    font-family: var(--font-stack-display);
     flex-grow: 1;
     font-size: 2em;
     text-decoration: none;
