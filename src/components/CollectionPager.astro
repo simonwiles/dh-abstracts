@@ -29,17 +29,20 @@ const { collectionMap, urlStem, activeKey } = Astro.props;
     flex-wrap: wrap;
     justify-content: center;
     list-style: none;
-    padding: 0;
     width: 100%;
   }
 
   a {
-    padding: 0 0.5em;
+    font-variant: all-small-caps;
+    font-size: 1.25em;
+    line-height: 1;
+    padding: 0 0.4em 0.2em;
     text-decoration: none;
 
     &:hover,
     &.active {
       border-bottom: 1px solid currentColor;
+      border-top: 1px solid currentColor;
       color: var(--envy);
     }
   }
