@@ -2,12 +2,13 @@ body {
   color: var(--font-color-light);
   background: var(--background);
   font-family: var(--font-stack-sans);
+  font-weight: 300;
   padding: 2ch;
 }
 
 a {
   color: var(--dusty-gray);
-  font-weight: bold;
+  font-weight: 500;
 }
 
 main {

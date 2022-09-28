@@ -1,5 +1,5 @@
 :root {
-  --font-stack-sans: sans-serif;
+  --font-stack-sans: "Work SansVariable", sans-serif;
 
   --manatee: #8b91a5;
   --athens-gray: hsl(225deg 10% 90%);
