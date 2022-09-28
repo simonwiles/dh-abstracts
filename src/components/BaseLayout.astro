@@ -3,6 +3,7 @@ import "@styles/stylesheet.css";
 import "@fontsource/work-sans/variable.css";
 
 import Head from "@components/Head.astro";
+import Header from "@components/Header.astro";
 
 let { bodyClass } = Astro.props;
 ---
@@ -10,6 +11,7 @@ let { bodyClass } = Astro.props;
 <html lang="en">
   <Head title="Home" />
   <body class={bodyClass}>
+    <Header />
     <main>
       <slot />
     </main>

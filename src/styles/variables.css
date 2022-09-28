@@ -7,11 +7,11 @@
   --envy: #91a58b;
   --dusty-gray: #a58b91;
 
-  --background: rgba(0 0 0 / 65%);
+  --background: #595959;
   --font-color-dark: #1d1d1d;
   --font-color-light: cornsilk;
 
   --copy-width: 80ch;
 
-  --wrap: 1000px;
+  --wrap: min(1000px, calc(100% - 2ch));
 }

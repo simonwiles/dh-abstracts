@@ -1,9 +1,21 @@
 body {
+  margin-left: calc(100vw - 100%);
+  margin-right: 0;
+  overflow-x: hidden;
+}
+
+body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+body {
   color: var(--font-color-light);
   background: var(--background);
   font-family: var(--font-stack-sans);
   font-weight: 300;
-  padding: 2ch;
 }
 
 a {
@@ -12,6 +24,7 @@ a {
 }
 
 main {
+  flex-grow: 1;
   font-size: 1.25em;
   line-height: 1.75;
   margin: auto;
