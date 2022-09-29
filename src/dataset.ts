@@ -14,6 +14,8 @@ const throwExpression = (errorMessage: string): never => {
   throw new Error(errorMessage);
 };
 
+const normalizeText = (text: string): string => text.replace(/\s+/g, " ");
+
 const getType = (xmlDoc: Document): string =>
   xmlDoc.documentElement.getAttribute("rend") ??
   throwExpression("Missing title!");
@@ -22,8 +24,10 @@ const getType = (xmlDoc: Document): string =>
 //  because combining them (e.g. `.querySelector("titleStmt title")`)
 //  doesn't work -- not 100% clear why, tbh... :shrug:
 const getTitle = (xmlDoc: Document): string =>
-  xmlDoc.querySelector("titleStmt")!.querySelector("title")?.textContent ??
-  throwExpression("Missing title!");
+  normalizeText(
+    xmlDoc.querySelector("titleStmt")!.querySelector("title")?.textContent ??
+      throwExpression("Missing title!"),
+  );
 
 const getAuthors = (xmlDoc: Document): Author[] =>
   [...xmlDoc.querySelector("titleStmt")!.querySelectorAll("author")].map(
