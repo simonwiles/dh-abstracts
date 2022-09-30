@@ -14,7 +14,7 @@ const formatAuthor = (author: Author) => {
 };
 ---
 
-<section>
+<section class="abstract-card">
   <header>
     <a href={`/abstracts/${abstract.xmlPath}`}>{abstract.title}</a>
     {abstract.authors.map(formatAuthor).join("; ")}
@@ -41,90 +41,3 @@ const formatAuthor = (author: Author) => {
     ) : null
   }
 </section>
-
-<style>
-  section {
-    background: var(--athens-gray);
-    border-radius: 4px;
-    color: var(--font-color-dark);
-    display: grid;
-    gap: 0.75em 0.5em;
-    grid:
-      "header aside"
-      "keywords keywords"
-      / 1fr auto;
-    margin: 1em auto;
-    padding: 1em;
-    position: relative;
-
-    a {
-      color: var(--font-color);
-      text-decoration: none;
-    }
-  }
-
-  header {
-    display: flex;
-    flex-direction: column;
-    grid-area: header;
-    line-height: 1.25;
-    padding-left: 1em;
-    text-indent: -1em;
-
-    a {
-      border-bottom: 1px solid grey;
-      margin-bottom: 0.5em;
-      padding-bottom: 0.25em;
-      width: fit-content;
-    }
-  }
-
-  aside {
-    align-items: flex-end;
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 max-content;
-    gap: 0.5em;
-    grid-area: aside;
-
-    @media (max-width: 600px) {
-      flex-direction: row;
-    }
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5em;
-    grid-area: keywords;
-  }
-
-  span,
-  li {
-    border-radius: 6px;
-    box-shadow: 1px 1px 4px -2px black;
-    font-size: smaller;
-    font-variant: all-small-caps;
-    line-height: 1;
-    padding: 2px 8px;
-    text-transform: lowercase;
-    width: max-content;
-
-    &.conference {
-      background: var(--grey-olive);
-      line-height: 24px;
-      text-transform: none;
-    }
-
-    &.keyword {
-      background: var(--dusty-gray);
-    }
-
-    &.type {
-      align-items: center;
-      background: var(--envy);
-      display: flex;
-      gap: 4px;
-    }
-  }
-</style>
