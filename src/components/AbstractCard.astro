@@ -1,7 +1,9 @@
 ---
 import type { Abstract, Author } from "@types";
 
-import Icon from "./Icon.astro";
+import { tmpl } from "../js/templating";
+
+import { template } from "./AbstractCardTemplate";
 
 export interface Props {
   abstract: Abstract;
@@ -12,32 +14,19 @@ const { abstract } = Astro.props;
 const formatAuthor = (author: Author) => {
   return `${author.forenames} ${author.surname}`;
 };
+
+const abstractCard = tmpl(template);
 ---
 
-<section class="abstract-card">
-  <header>
-    <a href={`/abstracts/${abstract.xmlPath}`}>{abstract.title}</a>
-    {abstract.authors.map(formatAuthor).join("; ")}
-  </header>
-  <aside>
-    {
-      abstract.conference && (
-        <span class="conference">{abstract.conference}</span>
-      )
-    }
-    <span class="type">
-      {abstract.type}
-      <Icon name={abstract.type} />
-    </span>
-  </aside>
+<Fragment
+  set:html={abstractCard({
+    url: `/abstracts/${abstract.xmlPath}`,
 
-  {
-    abstract.keywords.length ? (
-      <ul>
-        {abstract.keywords.map((keyword) => (
-          <li class="keyword">{keyword}</li>
-        ))}
-      </ul>
-    ) : null
-  }
-</section>
+    meta: {
+      ...abstract,
+      authors: abstract.authors.map(formatAuthor).join("; "),
+    },
+
+    filters: { keywords: abstract.keywords },
+  })}
+/>
