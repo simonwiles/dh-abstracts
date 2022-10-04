@@ -1,5 +1,5 @@
 ---
-import type { Abstract } from "@types";
+import type { Abstract, Author } from "@types";
 
 import { abstracts } from "@dataset";
 
@@ -15,8 +15,26 @@ export async function getStaticPaths() {
 }
 
 const { abstract } = Astro.props;
+
+const formatAuthor = (author: Author) => {
+  return `${author.forenames} ${author.surname}`;
+};
+
+const authors = abstract.authors.map(formatAuthor).join(", ");
 ---
 
 <BaseLayout>
-  <div set:html={abstract.htmlDom.outerHTML}></div>
+  <div data-pagefind-body set:html={abstract.htmlDom.outerHTML}></div>
+  <span data-pagefind-meta={`authors:${authors}`}></span>
+  <span data-pagefind-meta={`title:${abstract.title}`}></span>
+  {
+    abstract.conference && (
+      <span data-pagefind-meta={`conference:${abstract.conference}`} />
+    )
+  }
+  {
+    abstract.keywords.map((keyword: string) => (
+      <span data-pagefind-filter={`keywords:${keyword}`} />
+    ))
+  }
 </BaseLayout>
