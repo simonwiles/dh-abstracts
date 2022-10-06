@@ -10,29 +10,24 @@ import { template } from "@components/AbstractCardTemplate";
 
   <div id="message"></div>
   <div id="results"></div>
+  <button id="load-more" class="hidden">Load more results</button>
 
   <script type="text/template" id="abstractcard_tmpl" is:raw set:html={template}
   ></script>
 
   <script type="module" hoist>
     import { tmpl } from "../js/templating.js";
-    var abstractCardTmpl = tmpl("abstractcard_tmpl");
+    const abstractCardTmpl = tmpl("abstractcard_tmpl");
+
+    const showIncrement = 5;
 
     let initializing = false;
     let pagefind;
+    let searchResults = [];
+    let showing = 0;
 
     let search_id = 0;
     let search_term = "";
-
-    const debounce = (callback, wait) => {
-      let timeoutId = null;
-      return (...args) => {
-        window.clearTimeout(timeoutId);
-        timeoutId = window.setTimeout(() => {
-          callback.apply(null, args);
-        }, wait);
-      };
-    };
 
     const init = async () => {
       if (initializing) return;
@@ -43,9 +38,30 @@ import { template } from "@components/AbstractCardTemplate";
       }
     };
 
+    const renderResults = async () => {
+      for (let result of searchResults.slice(
+        showing,
+        showing + showIncrement,
+      )) {
+        const abstractCardHtml = abstractCardTmpl(await result.data());
+        resultsDiv.append(
+          ...new DOMParser().parseFromString(abstractCardHtml, "text/html").body
+            .childNodes,
+        );
+      }
+
+      showing = Math.min(showing + showIncrement, searchResults.length);
+      console.log(showing);
+      if (showing < searchResults.length) {
+        loadMoreButton.classList.remove("hidden");
+      }
+    };
+
     const clearResults = () => {
       resultsDiv.innerHTML = "";
       messageDiv.innerText = "";
+      showing = 0;
+      loadMoreButton.classList.add("hidden");
     };
 
     const search = async (term) => {
@@ -59,32 +75,21 @@ import { template } from "@components/AbstractCardTemplate";
       const local_search_id = ++search_id;
       const results = await pagefind.search(term, { filters });
       if (search_id === local_search_id) {
-        resultsDiv.innerHTML = "";
-        const resultsDom = document.createDocumentFragment();
-        const resultsHeader = document.createElement("p");
-        messageDiv.innerText = `${results.results.length} results for ${search_term}`;
-        resultsDom.append(resultsHeader);
-        for (let result of results.results) {
-          const abstractCardHtml = abstractCardTmpl(await result.data());
-          resultsDom.append(
-            ...new DOMParser().parseFromString(abstractCardHtml, "text/html")
-              .body.childNodes,
-          );
-        }
-        resultsDiv.appendChild(resultsDom);
+        clearResults();
+        searchResults = results.results;
+        messageDiv.innerText = `${searchResults.length} results for ${search_term}`;
+        renderResults();
       }
     };
-
-    const searchDebounced = debounce(search, 100);
 
     const resultsDiv = document.getElementById("results");
     const messageDiv = document.getElementById("message");
     const searchInput = document.getElementById("search");
+    const loadMoreButton = document.getElementById("load-more");
 
     searchInput.addEventListener("focus", init);
-    searchInput.addEventListener("keyup", (e) =>
-      searchDebounced(e.target.value),
-    );
+    searchInput.addEventListener("keyup", (e) => search(e.target.value));
+    loadMoreButton.addEventListener("click", renderResults);
   </script>
 </BaseLayout>
 
@@ -112,9 +117,13 @@ import { template } from "@components/AbstractCardTemplate";
     height: 50px;
     padding: 0 0 0 42px;
     background-color: #fff;
-    border: 2px solid #eee;
+    border: 2px solid var(--manatee);
     border-radius: 4px;
     appearance: none;
     width: 100%;
+  }
+
+  .hidden {
+    display: none;
   }
 </style>
