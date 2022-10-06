@@ -1,0 +1,120 @@
+---
+import BaseLayout from "@components/BaseLayout.astro";
+import { template } from "@components/AbstractCardTemplate";
+---
+
+<BaseLayout>
+  <form role="search" aria-label="search" action="javascript:void(0);">
+    <input id="search" type="text" placeholder="Search" />
+  </form>
+
+  <div id="message"></div>
+  <div id="results"></div>
+
+  <script type="text/template" id="abstractcard_tmpl" is:raw set:html={template}
+  ></script>
+
+  <script type="module" hoist>
+    import { tmpl } from "../js/templating.js";
+    var abstractCardTmpl = tmpl("abstractcard_tmpl");
+
+    let initializing = false;
+    let pagefind;
+
+    let search_id = 0;
+    let search_term = "";
+
+    const debounce = (callback, wait) => {
+      let timeoutId = null;
+      return (...args) => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+          callback.apply(null, args);
+        }, wait);
+      };
+    };
+
+    const init = async () => {
+      if (initializing) return;
+      initializing = true;
+      if (!pagefind) {
+        pagefind = await import(`/_pagefind/pagefind.js`);
+        await pagefind.options({ baseUrl: "/" });
+      }
+    };
+
+    const clearResults = () => {
+      resultsDiv.innerHTML = "";
+      messageDiv.innerText = "";
+    };
+
+    const search = async (term) => {
+      const filters = {};
+      if (!term) {
+        clearResults();
+        return;
+      }
+      search_term = term || "";
+      while (!pagefind) await init();
+      const local_search_id = ++search_id;
+      const results = await pagefind.search(term, { filters });
+      if (search_id === local_search_id) {
+        resultsDiv.innerHTML = "";
+        const resultsDom = document.createDocumentFragment();
+        const resultsHeader = document.createElement("p");
+        messageDiv.innerText = `${results.results.length} results for ${search_term}`;
+        resultsDom.append(resultsHeader);
+        for (let result of results.results) {
+          const abstractCardHtml = abstractCardTmpl(await result.data());
+          resultsDom.append(
+            ...new DOMParser().parseFromString(abstractCardHtml, "text/html")
+              .body.childNodes,
+          );
+        }
+        resultsDiv.appendChild(resultsDom);
+      }
+    };
+
+    const searchDebounced = debounce(search, 100);
+
+    const resultsDiv = document.getElementById("results");
+    const messageDiv = document.getElementById("message");
+    const searchInput = document.getElementById("search");
+
+    searchInput.addEventListener("focus", init);
+    searchInput.addEventListener("keyup", (e) =>
+      searchDebounced(e.target.value),
+    );
+  </script>
+</BaseLayout>
+
+<style>
+  form {
+    position: relative;
+    &::before {
+      background-color: var(--font-color-dark);
+      content: "";
+      display: block;
+      height: 14px;
+      left: 16px;
+      mask-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.7549 11.255H11.9649L11.6849 10.985C12.6649 9.845 13.2549 8.365 13.2549 6.755C13.2549 3.165 10.3449 0.255005 6.75488 0.255005C3.16488 0.255005 0.254883 3.165 0.254883 6.755C0.254883 10.345 3.16488 13.255 6.75488 13.255C8.36488 13.255 9.84488 12.665 10.9849 11.685L11.2549 11.965V12.755L16.2549 17.745L17.7449 16.255L12.7549 11.255ZM6.75488 11.255C4.26488 11.255 2.25488 9.245 2.25488 6.755C2.25488 4.26501 4.26488 2.255 6.75488 2.255C9.24488 2.255 11.2549 4.26501 11.2549 6.755C11.2549 9.245 9.24488 11.255 6.75488 11.255Z' fill='%23000000'/%3E%3C/svg%3E%0A");
+      mask-size: 100%;
+      opacity: 0.7;
+      pointer-events: none;
+      position: absolute;
+      top: 18px;
+      width: 14px;
+      z-index: 9;
+    }
+  }
+
+  input {
+    height: 50px;
+    padding: 0 0 0 42px;
+    background-color: #fff;
+    border: 2px solid #eee;
+    border-radius: 4px;
+    appearance: none;
+    width: 100%;
+  }
+</style>
