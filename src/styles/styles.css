@@ -28,5 +28,5 @@ main {
   font-size: 1.25em;
   line-height: 1.75;
   margin: auto;
-  width: var(--wrap);
+  width: max(var(--wrap), calc(var(--wrap) - calc(100vw - 100%)));
 }
