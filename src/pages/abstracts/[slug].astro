@@ -32,6 +32,7 @@ const authors = abstract.authors.map(formatAuthor).join(", ");
       <span data-pagefind-meta={`conference:${abstract.conference}`} />
     )
   }
+  {abstract.type && <span data-pagefind-meta={`type:${abstract.type}`} />}
   {
     abstract.keywords.map((keyword: string) => (
       <span data-pagefind-filter={`keywords:${keyword}`} />
