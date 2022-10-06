@@ -6,6 +6,7 @@ section.abstract-card {
   gap: 0.75em 0.5em;
   grid:
     "header aside"
+    "excerpt excerpt"
     "keywords keywords"
     / 1fr auto;
   margin: 1em auto;
@@ -89,5 +90,38 @@ section.abstract-card {
         width: 1.5rem;
       }
     }
+  }
+
+  p {
+    grid-area: excerpt;
+    font-size: 1em;
+    padding: 20px 20px;
+    line-height: 1.25;
+    font-family: var(--font-stack-serif);
+    font-weight: 400;
+    background-color: white;
+
+    background-image: linear-gradient(
+        135deg,
+        var(--athens-gray) 50%,
+        transparent 50%
+      ),
+      linear-gradient(225deg, var(--athens-gray) 50%, transparent 50%),
+      linear-gradient(45deg, var(--athens-gray) 50%, transparent 50%),
+      linear-gradient(-45deg, var(--athens-gray) 50%, transparent 50%);
+    background-position: top left, top left, bottom left, bottom left;
+    background-size: 10px 10px;
+    background-repeat: repeat-x;
+
+    &::before,
+    &::after {
+      content: "...";
+    }
+  }
+
+  mark {
+    background: rgba(0 255 0 / 10%);
+    border-top: 1px solid var(--envy);
+    border-bottom: 1px solid var(--envy);
   }
 }
