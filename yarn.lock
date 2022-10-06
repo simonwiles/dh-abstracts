@@ -352,10 +352,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/linux-loong64/-/linux-loong64-0.15.9.tgz#b658a97babf1f40783354af7039b84c3fdfc3fc3"
   integrity sha512-O+NfmkfRrb3uSsTa4jE3WApidSe3N5++fyOVGP1SmMZi4A3BZELkhUUvj5hwmMuNdlpzAZ8iAPz2vmcR7DCFQA==
 
-"@fontsource/corben@^4.5.9":
-  version "4.5.9"
-  resolved "https://registry.yarnpkg.com/@fontsource/corben/-/corben-4.5.9.tgz#89291c1b651c678e36339ef852555d2803471245"
-  integrity sha512-j+zTOZhq+ekWhansX4L3oW7hIvtL65NvrZWwMyn0eVLGFXItC7vHjmYEkwpkIiRLolF+OFmao3tCX2mzieff/g==
+"@fontsource/cormorant@^4.5.8":
+  version "4.5.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/cormorant/-/cormorant-4.5.8.tgz#587cc1af17324db26739a59a6c361bd9894594f5"
+  integrity sha512-E+iZG4vOfOHCR0UFVIYDjGP9i2DUvYiRJlN7ap6Gmd0CSasJjG5F3iUdItm/yyACJ+Sg4re46EbCa1kpK1XMHA==
 
 "@fontsource/work-sans@^4.5.12":
   version "4.5.12"

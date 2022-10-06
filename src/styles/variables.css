@@ -1,6 +1,6 @@
 :root {
-  --font-stack-display: "Corben", cursive;
   --font-stack-sans: "Work SansVariable", sans-serif;
+  --font-stack-serif: "CormorantVariable", sans-serif;
 
   --manatee: #8b91a5;
   --athens-gray: hsl(225deg 10% 90%);
