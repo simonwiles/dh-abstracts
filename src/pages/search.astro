@@ -92,12 +92,12 @@ import { template } from "@components/AbstractCardTemplate";
     const searchInput = document.getElementById("search");
     const loadMoreButton = document.getElementById("load-more");
 
-    searchInput.addEventListener("focus", init);
     searchInput.addEventListener("keyup", (e) => search(e.currentTarget.value));
     loadMoreButton.addEventListener("click", async () => {
       await renderResults();
       resultsDiv.children[showing - showIncrement].scrollIntoView();
     });
+    window.addEventListener("load", init);
   </script>
 </BaseLayout>
 
