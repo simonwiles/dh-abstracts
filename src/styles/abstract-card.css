@@ -12,6 +12,7 @@ section.abstract-card {
   margin: 1em auto;
   padding: 1em;
   position: relative;
+  scroll-margin-top: 3em;
 
   a {
     color: var(--font-color);

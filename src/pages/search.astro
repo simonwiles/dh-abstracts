@@ -8,9 +8,10 @@ import { template } from "@components/AbstractCardTemplate";
     <input id="search" type="text" placeholder="Search" />
   </form>
 
-  <div id="message"></div>
+  <div id="top-message"></div>
   <div id="results"></div>
   <button id="load-more" class="hidden">Load more results</button>
+  <div id="bottom-message"></div>
 
   <script type="text/template" id="abstractcard_tmpl" is:raw set:html={template}
   ></script>
@@ -51,51 +52,59 @@ import { template } from "@components/AbstractCardTemplate";
       }
 
       showing = Math.min(showing + showIncrement, searchResults.length);
-      console.log(showing);
-      if (showing < searchResults.length) {
-        loadMoreButton.classList.remove("hidden");
-      }
+      loadMoreButton.classList.toggle(
+        "hidden",
+        showing >= searchResults.length,
+      );
+      bottomMessageDiv.classList.toggle("hidden", !searchResults.length);
+      bottomMessageDiv.innerText = `Showing ${showing} / ${searchResults.length} results`;
     };
 
     const clearResults = () => {
       resultsDiv.innerHTML = "";
-      messageDiv.innerText = "";
+      topMessageDiv.innerText = "";
       showing = 0;
       loadMoreButton.classList.add("hidden");
+      bottomMessageDiv.classList.add("hidden");
     };
 
     const search = async (term) => {
+      const local_search_id = ++search_id;
       const filters = {};
       if (!term) {
         clearResults();
         return;
       }
-      search_term = term || "";
+      search_term = term;
       while (!pagefind) await init();
-      const local_search_id = ++search_id;
       const results = await pagefind.search(term, { filters });
       if (search_id === local_search_id) {
         clearResults();
         searchResults = results.results;
-        messageDiv.innerText = `${searchResults.length} results for ${search_term}`;
+        topMessageDiv.innerText = `${searchResults.length} results for ${search_term}`;
         renderResults();
       }
     };
 
     const resultsDiv = document.getElementById("results");
-    const messageDiv = document.getElementById("message");
+    const topMessageDiv = document.getElementById("top-message");
+    const bottomMessageDiv = document.getElementById("bottom-message");
     const searchInput = document.getElementById("search");
     const loadMoreButton = document.getElementById("load-more");
 
     searchInput.addEventListener("focus", init);
-    searchInput.addEventListener("keyup", (e) => search(e.target.value));
-    loadMoreButton.addEventListener("click", renderResults);
+    searchInput.addEventListener("keyup", (e) => search(e.currentTarget.value));
+    loadMoreButton.addEventListener("click", async () => {
+      await renderResults();
+      resultsDiv.children[showing - showIncrement].scrollIntoView();
+    });
   </script>
 </BaseLayout>
 
 <style>
   form {
     position: relative;
+
     &::before {
       background-color: var(--font-color-dark);
       content: "";
@@ -125,5 +134,23 @@ import { template } from "@components/AbstractCardTemplate";
 
   .hidden {
     display: none;
+  }
+
+  :global(section) {
+    animation-duration: 0.5s;
+    animation-name: animate-fade;
+    animation-delay: 0s;
+    animation-fill-mode: backwards;
+  }
+
+  @keyframes animate-fade {
+    0% {
+      transform: translate3d(0, 20%, 0) scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
   }
 </style>
