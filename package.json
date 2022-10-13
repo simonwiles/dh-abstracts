@@ -12,6 +12,7 @@
     "create-dev-index": "astro build && npx -y pagefind --source dist && cp -r dist/_pagefind ./"
   },
   "dependencies": {
+    "@astrojs/svelte": "^1.0.2",
     "@fontsource/cormorant": "^4.5.8",
     "@fontsource/work-sans": "^4.5.12",
     "CETEIcean": "https://github.com/simonwiles/CETEIcean#ssr",
@@ -19,7 +20,8 @@
     "autoprefixer": "^10.4.12",
     "canvas": "^2.10.1",
     "jsdom": "^20.0.0",
-    "postcss-nested": "^5.0.6"
+    "postcss-nested": "^5.0.6",
+    "svelte": "^3.51.0"
   },
   "devDependencies": {
     "@types/jsdom": "^20.0.0",
