@@ -1,4 +1,11 @@
 ---
+// This Astro component uses global CSS and a template from an external file, and
+//  mangles the `abstract` prop it received to match.
+// Whilst for static/server-side only rendering it would obviously be preferable
+//  to just use a regular Astro template, doing it this way allows the same
+//  HTML template and CSS to be used for client-side templating of search results
+//  (including excerpts) from the PageFind index.
+
 import type { Abstract, Author } from "@types";
 
 import { tmpl } from "../js/templating";
