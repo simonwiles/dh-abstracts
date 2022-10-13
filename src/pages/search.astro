@@ -76,7 +76,7 @@ import { template } from "@components/AbstractCardTemplate";
         return;
       }
       search_term = term;
-      while (!pagefind) await init();
+      while (!pagefind && !initializing) await init();
       const results = await pagefind.search(term, { filters });
       if (search_id === local_search_id) {
         clearResults();
