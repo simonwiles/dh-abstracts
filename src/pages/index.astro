@@ -1,7 +1,20 @@
 ---
 import BaseLayout from "@components/BaseLayout.astro";
+import { abstractsByYear } from "@dataset";
 ---
 
 <BaseLayout>
-  <h1>DH Abstracts</h1>
+  <p>
+    This site presents full-text abstracts from the following Digital Humanities
+    conferences:
+  </p>
+  <ul>
+    {
+      [...abstractsByYear.entries()].map(([k, v]) => (
+        <li>
+          {v.values().next().value.conference || k} ({v.size})
+        </li>
+      ))
+    }
+  </ul>
 </BaseLayout>
