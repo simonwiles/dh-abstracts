@@ -1,18 +1,14 @@
----
-import type { Abstract, Author } from "@types";
+<script lang="ts">
+  import type { Abstract, Author } from "@types";
 
-import Icon from "./Icon.astro";
+  import Icon from "./Icon.svelte";
 
-export interface Props {
-  abstract: Abstract;
-}
+  export let abstract: Abstract;
 
-const { abstract } = Astro.props;
-
-const formatAuthor = (author: Author) => {
-  return `${author.forenames} ${author.surname}`;
-};
----
+  const formatAuthor = (author: Author) => {
+    return `${author.forenames} ${author.surname}`;
+  };
+</script>
 
 <section>
   <header>
@@ -20,26 +16,20 @@ const formatAuthor = (author: Author) => {
     {abstract.authors.map(formatAuthor).join("; ")}
   </header>
   <aside>
-    {
-      abstract.conference && (
-        <span class="conference">{abstract.conference}</span>
-      )
-    }
+    <span class="conference">{abstract.conference}</span>
     <span class="type">
       {abstract.type}
       <Icon name={abstract.type} />
     </span>
   </aside>
 
-  {
-    abstract.keywords.length ? (
-      <ul>
-        {abstract.keywords.map((keyword) => (
-          <li class="keyword">{keyword}</li>
-        ))}
-      </ul>
-    ) : null
-  }
+  {#if abstract.keywords.length}
+    <ul>
+      {#each abstract.keywords as keyword}
+        <li class="keyword">{keyword}</li>
+      {/each}
+    </ul>
+  {/if}
 </section>
 
 <style>
